@@ -1,7 +1,7 @@
 # TO VALIDATE
 ./terraform plan -var-file="terraform.tfvars"
 
-#TO PLAN
+# TO PLAN
 ./terraform plan -var-file="terraform.tfvars"
 
 # TO APPLY
