@@ -1,5 +1,5 @@
 # TO VALIDATE
-./terraform plan -var-file="terraform.tfvars"
+./terraform validate -var-file="terraform.tfvars"
 
 # TO PLAN
 ./terraform plan -var-file="terraform.tfvars"
