@@ -1,4 +1,4 @@
-This is to creat an infrastructure for a High Availability wordpress website which uses Application Load Balancer with AutoScaling.
+This is to create an infrastructure for a High Availability wordpress website which uses Application Load Balancer with AutoScaling.
 Uses RDS as Database
 Uses S3 as Wordpress image uploads storage
 Uses Bastion server as gateway with custom VPC
