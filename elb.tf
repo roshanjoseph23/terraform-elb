@@ -264,3 +264,7 @@ output "Application_LB_DNS" {
 output "EFS_Mount_target" {
   value = aws_efs_mount_target.wp_efs.dns_name 
 }
+
+output "CDN_Name" {
+  value = aws_cloudfront_distribution.s3cdn.domain_name
+}
