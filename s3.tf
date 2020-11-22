@@ -1,6 +1,7 @@
 resource "aws_s3_bucket" "ha_s3" {
   bucket = "roshanjoseph.ml"
   acl    = "public-read"
+  force_destroy = true
   policy = file("policy.json")
   website {
     index_document = "index.html"
@@ -19,3 +20,5 @@ resource "aws_s3_bucket_object" "uploads_folder" {
     key     =  "uploads/"
     content_type = "application/x-directory"
 }
+
+
