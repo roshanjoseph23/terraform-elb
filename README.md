@@ -16,3 +16,6 @@ S3 is moounted to master EC2 using S3FS, for Slave EC2 need to create a .htacces
 
 # TO APPLY
 ./terraform apply -var-file="terraform.tfvars" --auto-approve
+
+# TO APPLY USING BACKEND INITIATE TERRAFORM
+./terraform init -backend-config="access_key=access-key" -backend-config="secret_key=secret-key"
