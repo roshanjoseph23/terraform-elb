@@ -61,10 +61,10 @@ resource "aws_security_group" "ha_wp_site" {
   }
 
   ingress {
-    description = "SSH from bastion"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    description     = "SSH from bastion"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
     security_groups = [aws_security_group.ha_wp_bastion.id]
   }
 
@@ -87,10 +87,10 @@ resource "aws_security_group" "ha_wp_db" {
   vpc_id      = aws_vpc.hawp.id
 
   ingress {
-    description = "DB from Website"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
+    description     = "DB from Website"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
     security_groups = [aws_security_group.ha_wp_site.id]
   }
 
@@ -112,10 +112,10 @@ resource "aws_security_group" "ha_wp_efs" {
   vpc_id      = aws_vpc.hawp.id
 
   ingress {
-    description = "EFS from Website"
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "tcp"
+    description     = "EFS from Website"
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
     security_groups = [aws_security_group.ha_wp_bastion.id]
   }
 

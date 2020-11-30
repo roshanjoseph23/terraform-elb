@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ha_wp_role" {
-  name = "ha_wp_role"
+  name               = "ha_wp_role"
   assume_role_policy = <<EOF
 {
       "Version": "2012-10-17",

@@ -1,6 +1,6 @@
 
 resource "aws_vpc" "hawp" {
-  cidr_block = "172.16.0.0/16"
+  cidr_block           = "172.16.0.0/16"
   enable_dns_hostnames = true
   tags = {
     Name = "ha_wp"
@@ -15,9 +15,9 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_subnet" "ha_wp_pub1" {
-  vpc_id = aws_vpc.hawp.id
-  cidr_block = "172.16.32.0/19"
-  availability_zone = var.pub_az1
+  vpc_id                  = aws_vpc.hawp.id
+  cidr_block              = "172.16.32.0/19"
+  availability_zone       = var.pub_az1
   map_public_ip_on_launch = true
   tags = {
     Name = "ha_wp_pub1"
@@ -25,9 +25,9 @@ resource "aws_subnet" "ha_wp_pub1" {
 }
 
 resource "aws_subnet" "ha_wp_pub2" {
-  vpc_id = aws_vpc.hawp.id
-  cidr_block = "172.16.64.0/19"
-  availability_zone = var.pub_az2
+  vpc_id                  = aws_vpc.hawp.id
+  cidr_block              = "172.16.64.0/19"
+  availability_zone       = var.pub_az2
   map_public_ip_on_launch = true
   tags = {
     Name = "ha_wp_pub2"
@@ -35,9 +35,9 @@ resource "aws_subnet" "ha_wp_pub2" {
 }
 
 resource "aws_subnet" "ha_wp_pub3" {
-  vpc_id = aws_vpc.hawp.id
-  cidr_block = "172.16.96.0/19"
-  availability_zone = var.pub_az3
+  vpc_id                  = aws_vpc.hawp.id
+  cidr_block              = "172.16.96.0/19"
+  availability_zone       = var.pub_az3
   map_public_ip_on_launch = true
   tags = {
     Name = "ha_wp_pub3"
@@ -45,8 +45,8 @@ resource "aws_subnet" "ha_wp_pub3" {
 }
 
 resource "aws_subnet" "ha_wp_priv1" {
-  vpc_id = aws_vpc.hawp.id
-  cidr_block = "172.16.128.0/19"
+  vpc_id            = aws_vpc.hawp.id
+  cidr_block        = "172.16.128.0/19"
   availability_zone = var.priv_az1
   tags = {
     Name = "ha_wp_priv1"
@@ -55,8 +55,8 @@ resource "aws_subnet" "ha_wp_priv1" {
 
 
 resource "aws_subnet" "ha_wp_priv2" {
-  vpc_id = aws_vpc.hawp.id
-  cidr_block = "172.16.160.0/19"
+  vpc_id            = aws_vpc.hawp.id
+  cidr_block        = "172.16.160.0/19"
   availability_zone = var.priv_az2
   tags = {
     Name = "ha_wp_priv2"
@@ -64,8 +64,8 @@ resource "aws_subnet" "ha_wp_priv2" {
 }
 
 resource "aws_subnet" "ha_wp_priv3" {
-  vpc_id = aws_vpc.hawp.id
-  cidr_block = "172.16.192.0/19"
+  vpc_id            = aws_vpc.hawp.id
+  cidr_block        = "172.16.192.0/19"
   availability_zone = var.priv_az3
   tags = {
     Name = "ha_wp_priv3"
@@ -113,7 +113,7 @@ resource "aws_lb" "hawordpress" {
   name               = "hawordpress"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.ha_wp_site.id] 
+  security_groups    = [aws_security_group.ha_wp_site.id]
   subnets            = [aws_subnet.ha_wp_pub1.id, aws_subnet.ha_wp_pub2.id, aws_subnet.ha_wp_pub3.id]
 
   enable_deletion_protection = false
@@ -173,6 +173,7 @@ resource "aws_lb_listener_rule" "master02" {
   }
 }
 
+
 resource "aws_launch_configuration" "hamaster" {
   name                 = "ha_wp_master"
   image_id             = var.ami
@@ -180,7 +181,7 @@ resource "aws_launch_configuration" "hamaster" {
   key_name             = "project"
   security_groups      = [aws_security_group.ha_wp_site.id]
   iam_instance_profile = aws_iam_instance_profile.s3_role.name
-  user_data            = templatefile("s3sfs.sh",{ efspoint = aws_efs_mount_target.wp_efs.dns_name })
+  user_data            = templatefile("s3sfs.sh", { efspoint = aws_efs_mount_target.wp_efs.dns_name })
   lifecycle {
     create_before_destroy = true
   }
@@ -264,17 +265,17 @@ resource "aws_db_instance" "ha_wordpress_db" {
 
 
 resource "aws_efs_file_system" "ha_wp_efs" {
-  creation_token = "fs-hawpefs"
+  creation_token   = "fs-hawpefs"
   performance_mode = "generalPurpose"
-  throughput_mode = "bursting"
+  throughput_mode  = "bursting"
   tags = {
     Name = "ha_wp_efs"
   }
 }
 
 resource "aws_efs_mount_target" "wp_efs" {
-  file_system_id = aws_efs_file_system.ha_wp_efs.id
-  subnet_id      = random_shuffle.ha_sub_pub.result[0]
+  file_system_id  = aws_efs_file_system.ha_wp_efs.id
+  subnet_id       = random_shuffle.ha_sub_pub.result[0]
   security_groups = [aws_security_group.ha_wp_efs.id]
 }
 
@@ -283,11 +284,11 @@ output "RDS_Endpoint" {
 }
 
 output "Application_LB_DNS" {
-  value = aws_lb.hawordpress.dns_name 
+  value = aws_lb.hawordpress.dns_name
 }
 
 output "EFS_Mount_target" {
-  value = aws_efs_mount_target.wp_efs.dns_name 
+  value = aws_efs_mount_target.wp_efs.dns_name
 }
 
 output "CDN_Name" {
