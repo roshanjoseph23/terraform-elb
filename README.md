@@ -18,7 +18,7 @@ High Availability wordpress website infrastructure using Terraform.
 
  - An IAM user with programmatic access with AWS Admin permission needs to be created.
  - Key pair needs to be created for SSH to Bastion server
- - An S3 needs to be created
+ - An S3 needs to be created to backup tfstate
 
 ## Application LB
 
