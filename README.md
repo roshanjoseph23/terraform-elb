@@ -42,7 +42,10 @@ A cloudfront is created for S3 where website images are uploaded
 
 ## S3
 
-S3 is moounted to master EC2 using S3FS
+S3 is mounted to master EC2 using S3FS
+
+    s3fs#BUCKETNAME:/uploads /var/www/html/wp-content/uploads fuse _netdev,allow_other,iam_role,url=http://s3.amazonaws.com 0 0
+
 A .htaccess with redirection to S3 image uploads should be created in Slave EC2
 
     RewriteEngine On
