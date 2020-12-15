@@ -13,12 +13,47 @@ High Availability wordpress website infrastructure using Terraform.
  - EFS
  - CloudFront
  - IAM Role
+ - Bastion server
 
 ## Prerequisites
 
  - An IAM user with programmatic access with AWS Admin permission needs to be created.
  - Key pair needs to be created for SSH to Bastion server
  - An S3 needs to be created to backup tfstate
+
+## AWS Access
+
+    cat ~/.aws/credentials 
+    [project]
+    aws_access_key_id = "<access_key>"
+    aws_secret_access_key = "<secret_access_key>"
+
+## Provider
+
+    provider "aws" {
+    region                  = "us-east-1"
+    profile                 = "project"
+    shared_credentials_file = "~/.aws/credentials"
+    }
+
+## Variables
+
+Variables are stored in file `terraform.tfvars`
+
+    pub_az1  = "us-east-1a"
+    pub_az2  = "us-east-1b"
+    pub_az3  = "us-east-1c"
+    priv_az1 = "us-east-1d"
+    priv_az2 = "us-east-1e"
+    priv_az3 = "us-east-1f"
+    min      = 1
+    max      = 1
+    des      = 1
+    ami      = "ami-0dba2cb6798deb6d8"
+    s3origin = "myS3Origin"
+
+Variables are called in command line using `-var-file="terraform.tfvars"`
+
 
 ## Application LB
 
@@ -58,6 +93,21 @@ RDS is used as database for Wordpress website
 ## EFS
 
 EFS is mounted to Master EC2 and Slave EC2
+
+    ${efspoint}':/ /var/www/html nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport 0 0
+    
+
+## Policies
+
+    policy.json 
+is used for S3 public read access for website image loading
+
+    iam.json
+is used for S3 bucket access to the IAM role which is then assigned to the WordpressMaster EC2 while creation
+
+    backend.json
+   is used for S3 access to backup the `terraform.tfstate` into the S3 bucket
+
 
 ## To Validate
 
