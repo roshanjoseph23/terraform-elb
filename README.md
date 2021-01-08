@@ -111,7 +111,7 @@ is used for S3 bucket access to the IAM role which is then assigned to the Wordp
 
 ## To Validate
 
- - ./terraform validate -var-file="terraform.tfvars"
+ - ./terraform validate
 
 ## To Plan
 
